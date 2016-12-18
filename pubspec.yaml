@@ -1,0 +1,18 @@
+author: "Tobe O <thosakwe@gmail.com>"
+description: "Blade templates for Dart."
+homepage: "https://github.com/thosakwe/dart_blade.git"
+name: "blade"
+version: "1.0.0-dev"
+dependencies: 
+  args: "^0.13.7"
+  barback: "^0.15.2+9"
+  glob: "^1.1.3"
+  path: "^1.4.1"
+  source_span: "^1.3.0"
+  string_scanner: "^1.0.1"
+  eval: 
+    git: "https://github.com/thosakwe/dart_eval.git"
+dev_dependencies: 
+  test: "^0.12.17+3"
+executables: 
+  blade: "blade"
