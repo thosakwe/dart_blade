@@ -12,7 +12,11 @@ class ContinueDirective extends BladeDirective {
 
 class EndDirective extends BladeDirective {
   @override
-  void call(builder, List<String> args) => builder.outdent();
+  void call(builder, List<String> args) {
+    builder
+      ..writeln('}')
+      ..outdent();
+  }
 }
 
 class ForeachDirective extends BladeDirective {
