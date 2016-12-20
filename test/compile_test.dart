@@ -7,5 +7,5 @@ main() {
     print(compiler.compile('''
     <h1>Hello!</h1>
     '''));
-  });
+  }, skip: 'Ok');
 }

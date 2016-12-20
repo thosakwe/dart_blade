@@ -1,27 +1,37 @@
+import 'dart:async';
 import 'package:blade/src/text/text.dart';
 import 'package:test/test.dart';
-final Reader reader = new Reader();
+
+Stream<String> str(String s) {
+  var c = new StreamController<String>()
+    ..add(s)
+    ..close();
+  return c.stream;
+}
 
 main() {
-  test('curly', () {
-    var chunks = reader.read('<a>{{ foo }}</a>');
+  test('curly', () async {
+    var scanner = new Scanner(Uri.parse('foo.bar'));
+    var chunks = await str('<a>{{ foo }}</a>').transform(scanner).toList();
     print(chunks);
   });
 
   group('directive', () {
-    test('empty', () {
-    var chunks = reader.read('<a>@verbatim</a>');
-    print(chunks);
+    test('empty', () async {
+      var scanner = new Scanner(Uri.parse('foo.bar'));
+      var chunks = await str('<a>@verbatim</a>').transform(scanner).toList();
+      print(chunks);
     });
-  });
 
-  test('escaped curly', () {
-    var chunks = reader.read('<a>@{{ foo }}</a>');
-    print(chunks);
-  });
+    test('escaped curly', () async {
+      var scanner = new Scanner(Uri.parse('foo.bar'));
+      var chunks = await str('<a>@{{ foo }}</a>').transform(scanner).toList();
+      print(chunks);
+    });
 
-  test('loop', () {
-    var chunks = reader.read('''
+    test('loop', () async {
+      var scanner = new Scanner(Uri.parse('foo.bar'));
+      var chunks = await str('''
     @foreach (user in users)
         @if (user.type == 1)
             @continue
@@ -33,12 +43,16 @@ main() {
             @break
         @endif
     @endforeach
-    ''');
-    print(chunks);
-  });
+    ''').transform(scanner).toList();
+      print(chunks);
+    });
 
-  test('unescaped', () {
-    var chunks = reader.read('<html><title>{!! dangerous !!}</title></html>');
-    print(chunks);
+    test('unescaped', () async {
+      var scanner = new Scanner(Uri.parse('foo.bar'));
+      var chunks = await str('<html><title>{!! dangerous !!}</title></html>')
+          .transform(scanner)
+          .toList();
+      print(chunks);
+    });
   });
 }
